@@ -240,39 +240,36 @@
 <p>要将此图加载到 GraphScope，可以将以下代码与
 <a class="reference external" href="https://graphscope.oss-accelerate.aliyuncs.com/ogbn_mag_small.tar.gz">数据文件</a> 结合使用。
 请下载数据并将其解压缩到本地的挂载目录（在本例中为`〜/test_data`）。</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span>
-    <span class="n">vertices</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;paper&quot;</span><span class="p">:</span> <span class="s2">&quot;paper.csv&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;author&quot;</span><span class="p">:</span> <span class="s2">&quot;author.csv&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;institution&quot;</span><span class="p">:</span> <span class="s2">&quot;institution.csv&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;field_of_study&quot;</span><span class="p">:</span> <span class="s2">&quot;field_of_study.csv&quot;</span><span class="p">,</span>
-    <span class="p">},</span>
-    <span class="n">edges</span><span class="o">=</span><span class="p">{</span>
-        <span class="s2">&quot;affiliated&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;author_affiliated_with_institution.csv&quot;</span><span class="p">,</span>
-            <span class="p">[],</span>
-            <span class="p">(</span><span class="s2">&quot;src_id&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;dst_id&quot;</span><span class="p">,</span> <span class="s2">&quot;institution&quot;</span><span class="p">),</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;cites&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;paper_cites_paper.csv&quot;</span><span class="p">,</span>
-            <span class="p">[],</span>
-            <span class="p">(</span><span class="s2">&quot;src_id&quot;</span><span class="p">,</span> <span class="s2">&quot;paper&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;dst_id&quot;</span><span class="p">,</span> <span class="s2">&quot;paper&quot;</span><span class="p">),</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;hasTopic&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;paper_has_topic_field_of_study.csv&quot;</span><span class="p">,</span>
-            <span class="p">[],</span>
-            <span class="p">(</span><span class="s2">&quot;src_id&quot;</span><span class="p">,</span> <span class="s2">&quot;paper&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;dst_id&quot;</span><span class="p">,</span> <span class="s2">&quot;field_of_study&quot;</span><span class="p">),</span>
-        <span class="p">),</span>
-        <span class="s2">&quot;writes&quot;</span><span class="p">:</span> <span class="p">(</span>
-            <span class="s2">&quot;author_writes_paper.csv&quot;</span><span class="p">,</span>
-            <span class="p">[],</span>
-            <span class="p">(</span><span class="s2">&quot;src_id&quot;</span><span class="p">,</span> <span class="s2">&quot;author&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;dst_id&quot;</span><span class="p">,</span> <span class="s2">&quot;paper&quot;</span><span class="p">),</span>
-        <span class="p">),</span>
-    <span class="p">}</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">g</span> <span class="o">=</span> <span class="n">graphscope</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">sess</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">g</span><span class="o">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="s2">&quot;paper.csv&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="s2">&quot;author.csv&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;author&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="s2">&quot;institution.csv&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;institution&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">add_vertices</span><span class="p">(</span><span class="s2">&quot;field_of_study.csv&quot;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;field_of_study&quot;</span><span class="p">)</span>
+    <span class="o">.</span><span class="n">add_edges</span><span class="p">(</span>
+        <span class="s2">&quot;author_affiliated_with_institution.csv&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;affiliated&quot;</span><span class="p">,</span>
+        <span class="n">src_label</span><span class="o">=</span><span class="s2">&quot;author&quot;</span><span class="p">,</span>
+        <span class="n">dst_label</span><span class="o">=</span><span class="s2">&quot;institution&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">add_edges</span><span class="p">(</span>
+        <span class="s2">&quot;paper_has_topic_field_of_study.csv&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;hasTopic&quot;</span><span class="p">,</span>
+        <span class="n">src_label</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
+        <span class="n">dst_label</span><span class="o">=</span><span class="s2">&quot;field_of_study&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">add_edges</span><span class="p">(</span>
+        <span class="s2">&quot;paper_cites_paper.csv&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;cites&quot;</span><span class="p">,</span>
+        <span class="n">src_label</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
+        <span class="n">dst_label</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="o">.</span><span class="n">add_edges</span><span class="p">(</span>
+        <span class="s2">&quot;author_writes_paper.csv&quot;</span><span class="p">,</span>
+        <span class="n">label</span><span class="o">=</span><span class="s2">&quot;writes&quot;</span><span class="p">,</span>
+        <span class="n">src_label</span><span class="o">=</span><span class="s2">&quot;author&quot;</span><span class="p">,</span>
+        <span class="n">dst_label</span><span class="o">=</span><span class="s2">&quot;paper&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 <span class="p">)</span>
 </pre></div>
 </div>

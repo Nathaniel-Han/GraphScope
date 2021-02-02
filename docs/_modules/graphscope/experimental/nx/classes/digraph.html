@@ -431,6 +431,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">graph</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">attr</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_saved_signature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signature</span></div>
 
+    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="s2">&quot;graphscope.nx.DiGraph</span><span class="se">\n</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="s2">&quot;type: &quot;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_str</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;&lt;&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_schema</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">s</span>
+
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">adj</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Graph adjacency object holding the successors of each node.</span>

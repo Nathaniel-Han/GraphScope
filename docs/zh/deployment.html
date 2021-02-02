@@ -84,7 +84,11 @@
 <ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="installation.html">安装</a></li>
 <li class="toctree-l1"><a class="reference internal" href="getting_started.html">快速上手</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">部署</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">部署</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#helmgraphscope">使用Helm部署GraphScope</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#aws">在AWS/阿里云上部署集群</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="tutorials.html">入门教程</a></li>
 <li class="toctree-l1"><a class="reference internal" href="loading_graph.html">载图</a></li>
 <li class="toctree-l1"><a class="reference internal" href="interactive_engine.html">图交互式分析引擎</a></li>
@@ -180,6 +184,47 @@
 <p>Coordinator 作为 GraphScope 后端服务的入口，通过 grpc 接收来自 Python 客户端的连接和命令，并管理着图分析引擎(GAE)、
 图查询引擎(GIE)，图学习引擎(GLE)的生命周期。</p>
 <p>您可以根据需求配置引擎镜像地址等参数，请在 <a class="reference internal" href="../reference/session.html#session"><span class="std std-ref">Session</span></a> 中参阅更多的详细信息。</p>
+<div class="section" id="helmgraphscope">
+<h2>使用Helm部署GraphScope<a class="headerlink" href="#helmgraphscope" title="Permalink to this headline">¶</a></h2>
+<p>获取并添加仓库信息</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$ helm repo add graphscope https://dl.bintray.com/graphscope/charts/
+$ helm update
+</pre></div>
+</div>
+<p>安装</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helm 3</span>
+$ helm install <span class="o">[</span>RELEASE_NAME<span class="o">]</span> graphscope/graphscope
+
+<span class="c1"># Helm 2</span>
+$ helm install --name <span class="o">[</span>RELEASE_NAME<span class="o">]</span> graphscope/graphscope
+</pre></div>
+</div>
+<p>检测GraphScope服务可用性</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Helm 3 or 2</span>
+$ helm <span class="nb">test</span> <span class="o">[</span>RELEASE_NAME<span class="o">]</span>
+</pre></div>
+</div>
+<p>参考 <a class="reference external" href="https://github.com/alibaba/GraphScope/blob/main/charts/graphscope/README.md">该链接</a> 以通过python客户端连接到预启动的GraphScope服务。</p>
+</div>
+<div class="section" id="aws">
+<h2>在AWS/阿里云上部署集群<a class="headerlink" href="#aws" title="Permalink to this headline">¶</a></h2>
+<p>我们提供了一个可在AWS或阿里云上创建 Kubernetes 集群的交互式脚本。这一脚本可以帮助用户使用已有的集群或创建新的 Kubernetes 集群，然后输出集群的配置文件。
+用法如下。你也可以通过 <cite>./script/launch_cluster.py –help</cite> 获得更详细的帮助信息。</p>
+<ul class="simple">
+<li><p>AWS</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip3 install click PyYAML boto3
+./scripts/launch_cluster.py --type aws --id your_access_key_id --secret your_access_key_secret --region your_region_name --output kube_config_path
+</pre></div>
+</div>
+<ul class="simple">
+<li><p>Aliyun</p></li>
+</ul>
+<div class="highlight-shell notranslate"><div class="highlight"><pre><span></span>pip3 install click PyYAML alibabacloud_cs20151215 alibabacloud_ecs20140526 alibabacloud_vpc20160428
+./scripts/launch_cluster.py --type aliyun --id your_access_key_id --secret your_access_key_secret --region your_region_id --output kube_config_path
+</pre></div>
+</div>
+</div>
 </div>
 
 

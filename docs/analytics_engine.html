@@ -436,7 +436,7 @@ Take SSSP as example, the algorithm in Pregel model looks like this.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphscope</span>
 
 <span class="n">sess</span> <span class="o">=</span> <span class="n">graphscope</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">graphscope</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">sess</span><span class="p">)</span>
 
 <span class="c1"># load my algorithm</span>
 <span class="n">my_app</span> <span class="o">=</span> <span class="n">SSSP_Pregel</span><span class="p">()</span>
@@ -453,7 +453,7 @@ Take SSSP as example, the algorithm in Pregel model looks like this.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">graphscope</span>
 
 <span class="n">sess</span> <span class="o">=</span> <span class="n">graphscope</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="n">g</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="s2">&quot;...&quot;</span><span class="p">)</span>
+<span class="n">g</span> <span class="o">=</span> <span class="n">graphscope</span><span class="o">.</span><span class="n">Session</span><span class="p">(</span><span class="n">sess</span><span class="p">)</span>
 
 <span class="c1"># load my algorithm from a gar package</span>
 <span class="n">my_app</span> <span class="o">=</span> <span class="n">load_app</span><span class="p">(</span><span class="s1">&#39;SSSP_Pregel&#39;</span><span class="p">,</span> <span class="s1">&#39;file:///var/graphscope/udf/my_sssp_pregel.gar&#39;</span><span class="p">)</span>

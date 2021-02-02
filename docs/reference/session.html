@@ -204,15 +204,17 @@ when closed.</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">graphscope</span> <span class="kn">as</span> <span class="nn">gs</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># use session object explicitly</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="s1">&#39;xxx&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">sess</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">session</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">Graph</span><span class="p">(</span><span class="n">sess</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pg</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">project_to_simple</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">sssp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 
 <span class="gp">&gt;&gt;&gt; </span><span class="c1"># or use a session as default</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">session</span><span class="p">()</span><span class="o">.</span><span class="n">as_default</span><span class="p">()</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">load_from</span><span class="p">(</span><span class="s1">&#39;xxx&#39;</span><span class="p">)</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">sssp</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">g</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">Graph</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">pg</span> <span class="o">=</span> <span class="n">g</span><span class="o">.</span><span class="n">project_to_simple</span><span class="p">(</span><span class="s1">&#39;v&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span> <span class="s1">&#39;dist&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">gs</span><span class="o">.</span><span class="n">sssp</span><span class="p">(</span><span class="n">pg</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -248,7 +250,7 @@ you can find all params detail in <a class="reference internal" href="#graphscop
 </ul>
 <dl class="py method">
 <dt id="graphscope.Session.__init__">
-<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num_workers</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">k8s_namespace</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">k8s_service_type</span><span class="o">=</span><span class="default_value">'NodePort'</span></em>, <em class="sig-param"><span class="n">k8s_gs_image</span><span class="o">=</span><span class="default_value">'registry.cn-hongkong.aliyuncs.com/graphscope/graphscope:0.2.0'</span></em>, <em class="sig-param"><span class="n">k8s_etcd_image</span><span class="o">=</span><span class="default_value">'quay.io/coreos/etcd:v3.4.13'</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_image</span><span class="o">=</span><span class="default_value">'registry.cn-hongkong.aliyuncs.com/graphscope/maxgraph_standalone_manager:0.2.0'</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_image</span><span class="o">=</span><span class="default_value">'zookeeper:3.4.14'</span></em>, <em class="sig-param"><span class="n">k8s_image_pull_policy</span><span class="o">=</span><span class="default_value">'IfNotPresent'</span></em>, <em class="sig-param"><span class="n">k8s_image_pull_secrets</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">k8s_coordinator_cpu</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">k8s_coordinator_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_etcd_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_etcd_mem</span><span class="o">=</span><span class="default_value">'128Mi'</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_mem</span><span class="o">=</span><span class="default_value">'256Mi'</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_cpu</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_mem</span><span class="o">=</span><span class="default_value">'512Mi'</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_shared_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_engine_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_engine_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_volumes</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">k8s_waiting_for_delete</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">timeout_seconds</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphscope/client/session.html#Session.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphscope.Session.__init__" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">config</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">addr</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">num_workers</span><span class="o">=</span><span class="default_value">2</span></em>, <em class="sig-param"><span class="n">preemptive</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">k8s_namespace</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">k8s_service_type</span><span class="o">=</span><span class="default_value">'NodePort'</span></em>, <em class="sig-param"><span class="n">k8s_gs_image</span><span class="o">=</span><span class="default_value">'registry.cn-hongkong.aliyuncs.com/graphscope/graphscope:0.2.1'</span></em>, <em class="sig-param"><span class="n">k8s_etcd_image</span><span class="o">=</span><span class="default_value">'quay.io/coreos/etcd:v3.4.13'</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_image</span><span class="o">=</span><span class="default_value">'registry.cn-hongkong.aliyuncs.com/graphscope/maxgraph_standalone_manager:0.2.1'</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_image</span><span class="o">=</span><span class="default_value">'zookeeper:3.4.14'</span></em>, <em class="sig-param"><span class="n">k8s_image_pull_policy</span><span class="o">=</span><span class="default_value">'IfNotPresent'</span></em>, <em class="sig-param"><span class="n">k8s_image_pull_secrets</span><span class="o">=</span><span class="default_value">[]</span></em>, <em class="sig-param"><span class="n">k8s_coordinator_cpu</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">k8s_coordinator_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_etcd_num_pods</span><span class="o">=</span><span class="default_value">3</span></em>, <em class="sig-param"><span class="n">k8s_etcd_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_etcd_mem</span><span class="o">=</span><span class="default_value">'128Mi'</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_zookeeper_mem</span><span class="o">=</span><span class="default_value">'256Mi'</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_cpu</span><span class="o">=</span><span class="default_value">1.0</span></em>, <em class="sig-param"><span class="n">k8s_gie_graph_manager_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_mem</span><span class="o">=</span><span class="default_value">'512Mi'</span></em>, <em class="sig-param"><span class="n">k8s_vineyard_shared_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_engine_cpu</span><span class="o">=</span><span class="default_value">0.5</span></em>, <em class="sig-param"><span class="n">k8s_engine_mem</span><span class="o">=</span><span class="default_value">'4Gi'</span></em>, <em class="sig-param"><span class="n">k8s_volumes</span><span class="o">=</span><span class="default_value">{}</span></em>, <em class="sig-param"><span class="n">k8s_waiting_for_delete</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">timeout_seconds</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="n">dangling_timeout_seconds</span><span class="o">=</span><span class="default_value">600</span></em>, <em class="sig-param"><span class="o">**</span><span class="n">kw</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphscope/client/session.html#Session.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphscope.Session.__init__" title="Permalink to this definition">¶</a></dt>
 <dd><p>Construct a new GraphScope session.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
@@ -258,7 +260,13 @@ For str, it will identify it as a path and read the configuration file to build 
 session if file exist. If not specified, the global default configuration
 <code class="code docutils literal notranslate"><span class="pre">DEFAULT_CONFIG_FILE</span></code> will be used, which get value of GS_CONFIG_PATH
 in environment. Note that it will overwrite explicit parameters. Defaults to None.</p></li>
+<li><p><strong>addr</strong> (<em>str</em><em>, </em><em>optional</em>) – The endpoint of a pre-launched GraphScope instance with ‘&lt;ip&gt;:&lt;port&gt;’ format.
+A new session id will be generated for each session connection.</p></li>
 <li><p><strong>num_workers</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of workers to launch GraphScope engine. Defaults to 2.</p></li>
+<li><p><strong>preemptive</strong> (<em>bool</em><em>, </em><em>optional</em>) – If True, GraphScope instance will treat resource params (e.g. k8s_coordinator_cpu)
+as limits and provide the minimum available value as requests, but this will make pod has a <cite>Burstable</cite> QOS,
+which can be preempted by other pods with high QOS. Otherwise, it will set both requests and limits with the
+same value.</p></li>
 <li><p><strong>k8s_namespace</strong> (<em>str</em><em>, </em><em>optional</em>) – Contains the namespace to create all resource inside.
 If param missing, it will try to read namespace from kubernetes context, or
 a random namespace will be created and deleted if namespace not exist.
@@ -278,6 +286,7 @@ Valid options are NodePort, and LoadBalancer. Defaults to NodePort.</p></li>
 <li><p><strong>k8s_engine_mem</strong> (<em>str</em><em>, </em><em>optional</em>) – Minimum number of memory request for engine container. Defaults to ‘4Gi’.</p></li>
 <li><p><strong>k8s_coordinator_cpu</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum number of CPU cores request for coordinator pod. Defaults to 1.0.</p></li>
 <li><p><strong>k8s_coordinator_mem</strong> (<em>str</em><em>, </em><em>optional</em>) – Minimum number of memory request for coordinator pod. Defaults to ‘4Gi’.</p></li>
+<li><p><strong>k8s_etcd_num_pods</strong> (<em>int</em><em>, </em><em>optional</em>) – The number of etcd pods. Defaults to 3.</p></li>
 <li><p><strong>k8s_etcd_cpu</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum number of CPU cores request for etcd pod. Defaults to 0.5.</p></li>
 <li><p><strong>k8s_etcd_mem</strong> (<em>str</em><em>, </em><em>optional</em>) – Minimum number of memory request for etcd pod. Defaults to ‘128Mi’.</p></li>
 <li><p><strong>k8s_zookeeper_cpu</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum number of CPU cores request for zookeeper container. Defaults to 0.5.</p></li>
@@ -285,7 +294,8 @@ Valid options are NodePort, and LoadBalancer. Defaults to NodePort.</p></li>
 <li><p><strong>k8s_gie_graph_manager_cpu</strong> (<em>float</em><em>, </em><em>optional</em>) – Minimum number of CPU cores request for graphmanager container. Defaults to 1.0.</p></li>
 <li><p><strong>k8s_gie_graph_manager_mem</strong> (<em>str</em><em>, </em><em>optional</em>) – Minimum number of memory request for graphmanager container. Defaults to ‘4Gi’.</p></li>
 <li><p><strong>k8s_volumes</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>A dict of k8s volume which represents a directory containing data, accessible to the
-containers in a pod. Defaults to {}. Only ‘hostPath’ supported yet. For example, we can mount host path with:</p>
+containers in a pod. Defaults to {}.</p>
+<p>For example, you can mount host path with:</p>
 <dl>
 <dt>k8s_volumes = {</dt><dd><dl>
 <dt>“my-data”: {</dt><dd><p>“type”: “hostPath”,
@@ -315,6 +325,30 @@ containers in a pod. Defaults to {}. Only ‘hostPath’ supported yet. For exam
 </dd>
 </dl>
 <p>}</p>
+<p>Or you can mount PVC with:</p>
+<dl>
+<dt>k8s_volumes = {</dt><dd><dl>
+<dt>“my-data”: {</dt><dd><p>“type”: “persistentVolumeClaim”,
+“field”: {</p>
+<blockquote>
+<div><p>”claimName”: “your-pvc-name”</p>
+</div></blockquote>
+<p>},
+“mounts”: [</p>
+<blockquote>
+<div><dl class="simple">
+<dt>{</dt><dd><p>“mountPath”: “&lt;path1&gt;”</p>
+</dd>
+</dl>
+<p>}</p>
+</div></blockquote>
+<p>]</p>
+</dd>
+</dl>
+<p>}</p>
+</dd>
+</dl>
+<p>}</p>
 <p>Also, you can mount a single volume with:</p>
 <dl>
 <dt>k8s_volumes = {</dt><dd><dl>
@@ -333,17 +367,14 @@ containers in a pod. Defaults to {}. Only ‘hostPath’ supported yet. For exam
 <p>}</p>
 </p></li>
 <li><p><strong>timeout_seconds</strong> (<em>int</em><em>, </em><em>optional</em>) – For waiting service ready (or waiting for delete if
-k8s_waiting_for_delete is True).
-Also, after seconds of client disconnect, coordinator will clean up this graphscope instance.
-Defaults to 600.</p></li>
+k8s_waiting_for_delete is True).</p></li>
+<li><p><strong>dangling_timeout_seconds</strong> (<em>int</em><em>, </em><em>optional</em>) – After seconds of client disconnect,
+coordinator will kill this graphscope instance. Defaults to 600.
+Expect this value to be greater than 5 (heartbeat interval).
+Disable dangling check by setting -1.</p></li>
 <li><p><strong>k8s_waiting_for_delete</strong> (<em>bool</em><em>, </em><em>optional</em>) – Waiting for service delete or not. Defaults to False.</p></li>
 <li><p><strong>**kw</strong> (<em>dict</em><em>, </em><em>optional</em>) – <p>Other optional parameters will be put to <code class="code docutils literal notranslate"><span class="pre">**kw</span></code>.
-- k8s_minikube_vm_driver (bool, optional):</p>
-<blockquote>
-<div><p>If your kubernetes cluster deployed on inner virtual machine
-(such as minikube with param –vm-driver is not None), you can specify
-<code class="code docutils literal notranslate"><span class="pre">k8s_minikube_vm_driver</span></code> is <code class="code docutils literal notranslate"><span class="pre">True</span></code>.</p>
-</div></blockquote>
+- k8s_minikube_vm_driver: Deprecated.</p>
 <ul>
 <li><dl class="simple">
 <dt>k8s_client_config (dict, optional):</dt><dd><p>Provide configurable parameters for connecting to remote k8s,
@@ -407,11 +438,27 @@ install self as a default session.</p>
 
 <dl class="py method">
 <dt id="graphscope.Session.gremlin">
-<code class="sig-name descname">gremlin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphscope/client/session.html#Session.gremlin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphscope.Session.gremlin" title="Permalink to this definition">¶</a></dt>
+<code class="sig-name descname">gremlin</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">graph</span></em>, <em class="sig-param"><span class="n">engine_params</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/graphscope/client/session.html#Session.gremlin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#graphscope.Session.gremlin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a interactive engine handler to execute gremlin queries.</p>
+<p>Note that this method will be executed implicitly when a property graph created
+and cache a instance of InteractiveQuery in session if <cite>initializing_interactive_engine</cite>
+is True. If you want to create a new instance under the same graph by different params,
+you should close the instance first.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># close and recreate InteractiveQuery.</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interactive_query</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">gremlin</span><span class="p">(</span><span class="n">g</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interactive_query</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">interactive_query</span> <span class="o">=</span> <span class="n">sess</span><span class="o">.</span><span class="n">gremlin</span><span class="p">(</span><span class="n">g</span><span class="p">,</span> <span class="n">engine_params</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;xxx&quot;</span><span class="p">:</span><span class="s2">&quot;xxx&quot;</span><span class="p">})</span>
+</pre></div>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><p><strong>graph</strong> – <code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code></p>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>graph</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Graph</span></code>) – Use the graph to create interactive instance.</p></li>
+<li><p><strong>engine_params</strong> (<em>dict</em><em>, </em><em>optional</em>) – Configure startup parameters of interactive engine.
+You can also configure this param by <cite>graphscope.set_option(engine_params={})</cite>.
+See a list of configurable keys in
+<cite>interactive_engine/deploy/docker/dockerfile/executor.vineyard.properties</cite></p></li>
+</ul>
 </dd>
 <dt class="field-even">Raises</dt>
 <dd class="field-even"><p><strong>InvalidArgumentError</strong> – <code class="code docutils literal notranslate"><span class="pre">graph</span></code> is not a property graph or unloaded.</p>

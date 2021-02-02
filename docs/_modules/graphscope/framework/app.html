@@ -283,9 +283,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">_gar</span> <span class="o">=</span> <span class="n">gar</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gar</span><span class="p">,</span> <span class="nb">bytes</span><span class="p">)</span> <span class="k">else</span> <span class="n">gar</span><span class="o">.</span><span class="n">getvalue</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># built_in apps has no gar resource.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_gar</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_gar</span> <span class="o">=</span> <span class="kc">None</span></div>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_saved_signature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signature</span></div>
+<div class="viewcode-block" id="AppAssets.__repr__"><a class="viewcode-back" href="../../../reference/app.html#graphscope.framework.app.AppAssets.__repr__">[docs]</a>    <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">f</span><span class="s2">&quot;graphscope.AppAssets &lt;type: </span><span class="si">{self._type}</span><span class="s2">, algorithm: </span><span class="si">{self._algo}</span><span class="s2">&gt;&quot;</span></div>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">algo</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -418,6 +419,8 @@
 <span class="sd">            TypeError: The type of app_assets incorrect.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">app_assets</span><span class="o">.</span><span class="n">is_compatible</span><span class="p">(</span><span class="n">graph</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">graph</span><span class="o">.</span><span class="n">loaded</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;The graph is not loaded.&quot;</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_key</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span> <span class="o">=</span> <span class="n">graph</span>
@@ -429,7 +432,9 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_saved_signature</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signature</span></div>
 
     <span class="k">def</span> <span class="nf">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s2">&quot;&lt;graphscope.App &#39;</span><span class="si">%s</span><span class="s2">&#39;&gt;&quot;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">key</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">f</span><span class="s2">&quot;graphscope.App &lt;type: </span><span class="si">{self._app_assets.type}</span><span class="s2">, algorithm: </span><span class="si">{self._app_assets.algo}</span><span class="s2">&quot;</span>
+        <span class="n">s</span> <span class="o">+=</span> <span class="n">f</span><span class="s2">&quot;bounded_graph: {str(self._graph)}&gt;&quot;</span>
+        <span class="k">return</span> <span class="n">s</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">key</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -440,7 +445,7 @@
     <span class="k">def</span> <span class="nf">signature</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;Signature is computed by all critical components of the App.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">(</span>
-            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_app_assets</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">signature</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
+            <span class="s2">&quot;</span><span class="si">{}</span><span class="s2">.</span><span class="si">{}</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_app_assets</span><span class="o">.</span><span class="n">signature</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_graph</span><span class="o">.</span><span class="n">template_str</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span>
                 <span class="s2">&quot;utf-8&quot;</span>
             <span class="p">)</span>
         <span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>

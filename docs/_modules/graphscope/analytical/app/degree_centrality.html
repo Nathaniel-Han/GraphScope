@@ -201,8 +201,8 @@
 <span class="sd">    .. code:: python</span>
 
 <span class="sd">        import graphscope as gs</span>
-<span class="sd">        s = gs.session()</span>
-<span class="sd">        g = s.load_from(&#39;The parameters for loading a graph...&#39;)</span>
+<span class="sd">        sess = gs.session()</span>
+<span class="sd">        g = gs.Graph(sess)</span>
 <span class="sd">        pg = g.project_to_simple(v_label=&quot;vlabel&quot;, e_label=&quot;elabel&quot;)</span>
 <span class="sd">        r = gs.degree_centrality(pg, centrality_type=&quot;both&quot;)</span>
 <span class="sd">        s.close()</span>

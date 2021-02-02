@@ -191,7 +191,7 @@
 <span class="sd">    nx_graph_type: the networkx graph type of graph (Graph, DiGraph, MultiGraph, MultiDiGraph).</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">sess</span> <span class="o">=</span> <span class="n">get_session_by_id</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">)</span>
+    <span class="n">sess</span> <span class="o">=</span> <span class="n">get_session_by_id</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">dag_utils</span><span class="o">.</span><span class="n">create_graph</span><span class="p">(</span>
         <span class="n">sess</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">graph_type</span><span class="o">=</span><span class="n">graph</span><span class="o">.</span><span class="n">_graph_type</span><span class="p">,</span>

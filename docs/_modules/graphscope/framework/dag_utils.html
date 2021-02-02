@@ -210,8 +210,6 @@
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">E_DATA_TYPE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span>
             <span class="n">utils</span><span class="o">.</span><span class="n">data_type_to_cpp</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">edata_type</span><span class="p">)</span>
         <span class="p">),</span>
-        <span class="n">types_pb2</span><span class="o">.</span><span class="n">APP_SIGNATURE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">signature</span><span class="p">),</span>
-        <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_SIGNATURE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">template_sigature</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="k">if</span> <span class="n">app</span><span class="o">.</span><span class="n">gar</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GAR</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">bytes_to_attr</span><span class="p">(</span><span class="n">app</span><span class="o">.</span><span class="n">gar</span><span class="p">)</span>
@@ -259,6 +257,70 @@
     <span class="k">return</span> <span class="n">op</span></div>
 
 
+<span class="k">def</span> <span class="nf">add_vertices</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an `ADD_VERTICES` op, add op to default dag.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        graph (:class:`Graph`): a :class:`Graph` instance.</span>
+<span class="sd">        **kwargs: additional properties respect to different `graph_type`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An op to add vertices to a graph in c++ side with necessary configurations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_NAME</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">key</span><span class="p">),</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_TYPE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">graph_type_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">graph_type</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">graph</span><span class="o">.</span><span class="n">graph_type</span> <span class="o">==</span> <span class="n">types_pb2</span><span class="o">.</span><span class="n">ARROW_PROPERTY</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;attrs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">attr_value_pb2</span><span class="o">.</span><span class="n">AttrValue</span><span class="p">):</span>
+                    <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Not support add vertices on graph type </span><span class="si">{graph.graph_type}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">ADD_VERTICES</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">op</span>
+
+
+<span class="k">def</span> <span class="nf">add_edges</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create an `ADD_EDGES` op, add op to default dag.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        graph (:class:`Graph`): a :class:`Graph` instance.</span>
+<span class="sd">        **kwargs: additional properties respect to different `graph_type`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An op to add edges to a graph in c++ side with necessary configurations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_NAME</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">key</span><span class="p">),</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_TYPE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">graph_type_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">graph_type</span><span class="p">),</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="n">graph</span><span class="o">.</span><span class="n">graph_type</span> <span class="o">==</span> <span class="n">types_pb2</span><span class="o">.</span><span class="n">ARROW_PROPERTY</span><span class="p">:</span>
+        <span class="n">attrs</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;attrs&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">attrs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">attrs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">attr_value_pb2</span><span class="o">.</span><span class="n">AttrValue</span><span class="p">):</span>
+                    <span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="n">f</span><span class="s2">&quot;Not support add edges on graph type </span><span class="si">{graph.graph_type}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
+        <span class="n">types_pb2</span><span class="o">.</span><span class="n">ADD_EDGES</span><span class="p">,</span>
+        <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
+        <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="k">return</span> <span class="n">op</span>
+
+
 <div class="viewcode-block" id="dynamic_to_arrow"><a class="viewcode-back" href="../../../reference/generated/graphscope.framework.dag_utils.dynamic_to_arrow.html#graphscope.framework.dag_utils.dynamic_to_arrow">[docs]</a><span class="k">def</span> <span class="nf">dynamic_to_arrow</span><span class="p">(</span><span class="n">graph</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create an op to transform a :class:`nx.Graph` object to :class:`Graph`.</span>
 
@@ -294,7 +356,7 @@
     <span class="p">}</span>
 
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">TRANSFORM_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -320,7 +382,7 @@
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">VID_TYPE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">schema</span><span class="o">.</span><span class="n">vid_type</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">TRANSFORM_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -333,7 +395,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        graph (:class:`nx.Graph`): A nx graph.</span>
-<span class="sd">        modify_type (`type_pb2.(ADD_EDGES | DEL_EDGES | UPDATE_EDGES)`): The modify type</span>
+<span class="sd">        modify_type (`type_pb2.(NX_ADD_EDGES | NX_DEL_EDGES | NX_UPDATE_EDGES)`): The modify type</span>
 <span class="sd">        edges (list): List of edges to be inserted into or delete from graph based on `modify_type`</span>
 
 <span class="sd">    Returns:</span>
@@ -345,7 +407,7 @@
     <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">MODIFY_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">modify_type_to_attr</span><span class="p">(</span><span class="n">modify_type</span><span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">EDGES</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">list_str_to_attr</span><span class="p">(</span><span class="n">edges</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">MODIFY_EDGES</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -358,7 +420,7 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        graph (:class:`nx.Graph`): A nx graph.</span>
-<span class="sd">        modify_type (`type_pb2.(ADD_NODES | DEL_NODES | UPDATE_NODES)`): The modify type</span>
+<span class="sd">        modify_type (`type_pb2.(NX_ADD_NODES | NX_DEL_NODES | NX_UPDATE_NODES)`): The modify type</span>
 <span class="sd">        vertices (list): node list.</span>
 
 <span class="sd">    Returns:</span>
@@ -370,7 +432,7 @@
     <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">MODIFY_TYPE</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">modify_type_to_attr</span><span class="p">(</span><span class="n">modify_type</span><span class="p">)</span>
     <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">NODES</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">list_str_to_attr</span><span class="p">(</span><span class="n">vertices</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">MODIFY_VERTICES</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -403,7 +465,7 @@
     <span class="n">query_args</span><span class="o">.</span><span class="n">args</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
 
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">RUN_APP</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">RESULTS</span><span class="p">,</span>
@@ -466,7 +528,7 @@
 
     <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">EDGE_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="k">if</span> <span class="n">key</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">REPORT_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">RESULTS</span><span class="p">,</span>
@@ -512,7 +574,7 @@
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">E_DATA_TYPE</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">utils</span><span class="o">.</span><span class="n">data_type_to_cpp</span><span class="p">(</span><span class="n">e_data_type</span><span class="p">)),</span>
     <span class="p">}</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">PROJECT_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -544,7 +606,7 @@
     <span class="p">}</span>
 
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">PROJECT_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -573,7 +635,7 @@
     <span class="p">}</span>
 
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">COPY_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -611,7 +673,7 @@
     <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">graph</span><span class="p">,</span> <span class="s2">&quot;vineyard_id&quot;</span><span class="p">):</span>
         <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">VINEYARD_ID</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">i_to_attr</span><span class="p">(</span><span class="n">graph</span><span class="o">.</span><span class="n">vineyard_id</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">UNLOAD_GRAPH</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -748,7 +810,7 @@
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">SELECTOR</span><span class="p">:</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">selector</span><span class="p">),</span>
     <span class="p">}</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">ADD_COLUMN</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH</span><span class="p">,</span>
@@ -775,7 +837,7 @@
     <span class="k">if</span> <span class="n">vertex_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">VERTEX_RANGE</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">vertex_range</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_TO_NUMPY</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">TENSOR</span><span class="p">,</span>
@@ -802,7 +864,7 @@
     <span class="k">if</span> <span class="n">vertex_range</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">config</span><span class="p">[</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">VERTEX_RANGE</span><span class="p">]</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">s_to_attr</span><span class="p">(</span><span class="n">vertex_range</span><span class="p">)</span>
     <span class="n">op</span> <span class="o">=</span> <span class="n">Operation</span><span class="p">(</span>
-        <span class="n">graph</span><span class="o">.</span><span class="n">_session_id</span><span class="p">,</span>
+        <span class="n">graph</span><span class="o">.</span><span class="n">session_id</span><span class="p">,</span>
         <span class="n">types_pb2</span><span class="o">.</span><span class="n">GRAPH_TO_DATAFRAME</span><span class="p">,</span>
         <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span>
         <span class="n">output_types</span><span class="o">=</span><span class="n">types_pb2</span><span class="o">.</span><span class="n">DATAFRAME</span><span class="p">,</span>

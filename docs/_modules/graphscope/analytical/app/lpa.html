@@ -198,8 +198,8 @@
 <span class="sd">    .. code:: python</span>
 
 <span class="sd">        import graphscope as gs</span>
-<span class="sd">        s = gs.session()</span>
-<span class="sd">        g = s.load_from(&#39;The parameters for loading a graph...&#39;)</span>
+<span class="sd">        sess = gs.session()</span>
+<span class="sd">        g = gs.Graph(sess)</span>
 <span class="sd">        r = gs.lpa(g)</span>
 <span class="sd">        s.close()</span>
 

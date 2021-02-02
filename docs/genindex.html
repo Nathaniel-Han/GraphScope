@@ -235,6 +235,8 @@
         <li><a href="reference/networkx/generated/graphscope.experimental.nx.Graph.__len__.html#graphscope.experimental.nx.Graph.__len__">(graphscope.experimental.nx.Graph method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/app.html#graphscope.framework.app.AppAssets.__repr__">__repr__() (graphscope.framework.app.AppAssets method)</a>
+</li>
       <li><a href="reference/app.html#graphscope.framework.app.App.__weakref__">__weakref__ (graphscope.framework.app.App attribute)</a>
 
       <ul>
@@ -259,6 +261,8 @@
         <li><a href="reference/networkx/generated/graphscope.experimental.nx.Graph.add_edge.html#graphscope.experimental.nx.Graph.add_edge">(graphscope.experimental.nx.Graph method)</a>
 </li>
       </ul></li>
+      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.add_edges">add_edges() (graphscope.framework.graph.Graph method)</a>
+</li>
       <li><a href="reference/networkx/generated/graphscope.experimental.nx.DiGraph.add_edges_from.html#graphscope.experimental.nx.DiGraph.add_edges_from">add_edges_from() (graphscope.experimental.nx.DiGraph method)</a>
 
       <ul>
@@ -318,10 +322,6 @@
       <li><a href="reference/session.html#graphscope.Session.as_default">as_default() (graphscope.Session method)</a>
 </li>
       <li><a href="reference/generated/graphscope.framework.operation.Operation.as_op_def.html#graphscope.framework.operation.Operation.as_op_def">as_op_def() (graphscope.framework.operation.Operation method)</a>
-</li>
-      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.attach_interactive_instance">attach_interactive_instance() (graphscope.framework.graph.Graph method)</a>
-</li>
-      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.attach_learning_instance">attach_learning_instance() (graphscope.framework.graph.Graph method)</a>
 </li>
       <li><a href="reference/networkx/builtin.html#graphscope.experimental.nx.builtin.average_clustering">average_clustering() (in module graphscope.experimental.nx.builtin)</a>, <a href="reference/networkx/graphs.html#graphscope.experimental.nx.builtin.average_clustering">[1]</a>
 </li>
@@ -427,13 +427,13 @@
       </ul></li>
   </ul></td>
   <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.deserialize">deserialize() (graphscope.framework.graph.Graph class method)</a>
-</li>
       <li><a href="reference/graph.html#graphscope.framework.graph.Graph.detach">detach() (graphscope.framework.graph.Graph method)</a>
 </li>
       <li><a href="reference/networkx/graphs.html#graphscope.experimental.nx.DiGraph">DiGraph (class in graphscope.experimental.nx)</a>
 </li>
       <li><a href="reference/networkx/generated/graphscope.experimental.nx.generators.classic.dorogovtsev_goltsev_mendes_graph.html#graphscope.experimental.nx.generators.classic.dorogovtsev_goltsev_mendes_graph">dorogovtsev_goltsev_mendes_graph() (in module graphscope.experimental.nx.generators.classic)</a>
+</li>
+      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.draw">draw() (graphscope.framework.graph.Graph method)</a>
 </li>
       <li><a href="reference/generated/graphscope.framework.dag_utils.dynamic_to_arrow.html#graphscope.framework.dag_utils.dynamic_to_arrow">dynamic_to_arrow() (in module graphscope.framework.dag_utils)</a>
 </li>
@@ -457,15 +457,17 @@
         <li><a href="reference/networkx/generated/graphscope.experimental.nx.Graph.edges.html#graphscope.experimental.nx.Graph.edges">(graphscope.experimental.nx.Graph property)</a>
 </li>
       </ul></li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/app.html#graphscope.eigenvector_centrality">eigenvector_centrality() (in module graphscope)</a>
 
       <ul>
         <li><a href="reference/networkx/builtin.html#graphscope.experimental.nx.builtin.eigenvector_centrality">(in module graphscope.experimental.nx.builtin)</a>, <a href="reference/networkx/graphs.html#graphscope.experimental.nx.builtin.eigenvector_centrality">[1]</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/networkx/generated/graphscope.experimental.nx.generators.classic.empty_graph.html#graphscope.experimental.nx.generators.classic.empty_graph">empty_graph() (in module graphscope.experimental.nx.generators.classic)</a>
+</li>
+      <li><a href="reference/interactive.html#graphscope.interactive.query.InteractiveQuery.error_msg">error_msg() (graphscope.interactive.query.InteractiveQuery property)</a>
 </li>
       <li><a href="reference/generated/graphscope.framework.operation.Operation.eval.html#graphscope.framework.operation.Operation.eval">eval() (graphscope.framework.operation.Operation method)</a>
 </li>
@@ -789,17 +791,33 @@
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4I00EN2gs19ArrowFragmentLoaderE">gs::ArrowFragmentLoader (C++ class)</a>
 </li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader8AddEdgesEN8vineyard8ObjectIDE">gs::ArrowFragmentLoader::AddEdges (C++ function)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader23AddEdgesAsFragmentGroupEN8vineyard8ObjectIDE">gs::ArrowFragmentLoader::AddEdgesAsFragmentGroup (C++ function)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader11AddVerticesEN8vineyard8ObjectIDE">gs::ArrowFragmentLoader::AddVertices (C++ function)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader26AddVerticesAsFragmentGroupEN8vineyard8ObjectIDE">gs::ArrowFragmentLoader::AddVerticesAsFragmentGroup (C++ function)</a>
+</li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader19ArrowFragmentLoaderERN8vineyard6ClientERKN5grape8CommSpecENSt10shared_ptrIN6detail5GraphEEE">gs::ArrowFragmentLoader::ArrowFragmentLoader (C++ function)</a>, <a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader19ArrowFragmentLoaderERN8vineyard6ClientERKN5grape8CommSpecERKNSt6vectorINSt6stringEEERKNSt6vectorINSt6stringEEEb">[1]</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader15initPartitionerEv">gs::ArrowFragmentLoader::initPartitioner (C++ function)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader14LoadEdgeTablesEv">gs::ArrowFragmentLoader::LoadEdgeTables (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader12LoadFragmentEv">gs::ArrowFragmentLoader::LoadFragment (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader27LoadFragmentAsFragmentGroupEv">gs::ArrowFragmentLoader::LoadFragmentAsFragmentGroup (C++ function)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoader16LoadVertexTablesEv">gs::ArrowFragmentLoader::LoadVertexTables (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs19ArrowFragmentLoaderD0Ev">gs::ArrowFragmentLoader::~ArrowFragmentLoader (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4I0000EN2gs22ArrowProjectedFragmentE">gs::ArrowProjectedFragment (C++ class)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs22ArrowProjectedFragment10adj_list_tE">gs::ArrowProjectedFragment::adj_list_t (C++ type)</a>
+</li>
+      <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs22ArrowProjectedFragment16const_adj_list_tE">gs::ArrowProjectedFragment::const_adj_list_t (C++ type)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs22ArrowProjectedFragment9ConstructERKN8vineyard10ObjectMetaE">gs::ArrowProjectedFragment::Construct (C++ function)</a>
 </li>
@@ -869,6 +887,8 @@
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4NK2gs22ArrowProjectedFragment21InnerVertexGid2VertexERK5vid_tR8vertex_t">gs::ArrowProjectedFragment::InnerVertexGid2Vertex (C++ function)</a>
 </li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/analytical_engine_index.html#_CPPv4NK2gs22ArrowProjectedFragment13InnerVerticesEv">gs::ArrowProjectedFragment::InnerVertices (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs22ArrowProjectedFragment14internal_oid_tE">gs::ArrowProjectedFragment::internal_oid_t (C++ type)</a>
@@ -877,8 +897,6 @@
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4NK2gs22ArrowProjectedFragment13IsInnerVertexERK8vertex_t">gs::ArrowProjectedFragment::IsInnerVertex (C++ function)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/analytical_engine_index.html#_CPPv4NK2gs22ArrowProjectedFragment13IsOuterVertexERK8vertex_t">gs::ArrowProjectedFragment::IsOuterVertex (C++ function)</a>
 </li>
       <li><a href="reference/analytical_engine_index.html#_CPPv4N2gs22ArrowProjectedFragment10label_id_tE">gs::ArrowProjectedFragment::label_id_t (C++ type)</a>
@@ -1343,14 +1361,16 @@
 </li>
       <li><a href="reference/generated/graphscope.framework.app.load_app.html#graphscope.framework.app.load_app">load_app() (in module graphscope.framework.app)</a>
 </li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="reference/session.html#graphscope.Session.load_from">load_from() (graphscope.Session method)</a>
+      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.load_from">load_from() (graphscope.framework.graph.Graph class method)</a>
 
       <ul>
-        <li><a href="reference/graph.html#graphscope.framework.graph_utils.load_from">(in module graphscope.framework.graph_utils)</a>
+        <li><a href="reference/session.html#graphscope.Session.load_from">(graphscope.Session method)</a>
+</li>
+        <li><a href="reference/graph.html#graphscope.framework.graph_builder.load_from">(in module graphscope.framework.graph_builder)</a>
 </li>
       </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/app.html#graphscope.framework.app.App.loaded">loaded() (graphscope.framework.app.App method)</a>
 </li>
       <li><a href="reference/graph.html#graphscope.framework.loader.Loader">Loader (class in graphscope.framework.loader)</a>
@@ -1429,8 +1449,6 @@
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
       <li><a href="reference/interactive.html#graphscope.interactive.query.InteractiveQuery.object_id">object_id() (graphscope.interactive.query.InteractiveQuery property)</a>
-</li>
-      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.op">op() (graphscope.framework.graph.Graph property)</a>
 </li>
       <li><a href="reference/operation.html#graphscope.framework.operation.Operation">Operation (class in graphscope.framework.operation)</a>
 </li>
@@ -1532,11 +1550,11 @@
 <h2 id="S">S</h2>
 <table style="width: 100%" class="indextable genindextable"><tr>
   <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.save_to">save_to() (graphscope.framework.graph.Graph method)</a>
+</li>
       <li><a href="reference/graph.html#graphscope.framework.graph.Graph.schema">schema() (graphscope.framework.graph.Graph property)</a>
 </li>
       <li><a href="reference/graph.html#graphscope.framework.graph.Graph.schema_path">schema_path() (graphscope.framework.graph.Graph property)</a>
-</li>
-      <li><a href="reference/graph.html#graphscope.framework.graph.Graph.serialize">serialize() (graphscope.framework.graph.Graph method)</a>
 </li>
       <li><a href="reference/session.html#graphscope.Session">Session (class in graphscope)</a>
 </li>
@@ -1550,6 +1568,8 @@
         <li><a href="reference/graph.html#graphscope.framework.graph.Graph.session_id">(graphscope.framework.graph.Graph property)</a>
 </li>
       </ul></li>
+      <li><a href="reference/interactive.html#graphscope.interactive.query.InteractiveQuery.set_frontend">set_frontend() (graphscope.interactive.query.InteractiveQuery method)</a>
+</li>
       <li><a href="reference/generated/graphscope.set_option.html#graphscope.set_option">set_option() (in module graphscope)</a>
 </li>
       <li><a href="reference/generated/graphscope.framework.operation.Operation.set_output.html#graphscope.framework.operation.Operation.set_output">set_output() (graphscope.framework.operation.Operation method)</a>
@@ -1583,6 +1603,8 @@
       <li><a href="reference/app.html#graphscope.sssp">sssp() (in module graphscope)</a>
 </li>
       <li><a href="reference/networkx/generated/graphscope.experimental.nx.generators.classic.star_graph.html#graphscope.experimental.nx.generators.classic.star_graph">star_graph() (in module graphscope.experimental.nx.generators.classic)</a>
+</li>
+      <li><a href="reference/interactive.html#graphscope.interactive.query.InteractiveQuery.status">status() (graphscope.interactive.query.InteractiveQuery property)</a>
 </li>
       <li><a href="reference/networkx/generated/graphscope.experimental.nx.DiGraph.subgraph.html#graphscope.experimental.nx.DiGraph.subgraph">subgraph() (graphscope.experimental.nx.DiGraph method)</a>
 
