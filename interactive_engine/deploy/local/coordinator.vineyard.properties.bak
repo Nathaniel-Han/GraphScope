@@ -10,7 +10,7 @@ coordinator.port=8183
 resource.frontend.count=1
 resource.ingestnode.count=1
 resource.executor.count=RESOURCE_EXECUTOR_COUNT
-partition.num=1
+partition.num=PARTITION_NUM
 replica.count=1
 
 vpc.endpoint=default

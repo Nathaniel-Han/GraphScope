@@ -18,6 +18,7 @@ JAVA_OPT="-server -Xmx1024m -Xms1024m -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDu
 rm -rf $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 cp $ROOT_DIR/deploy/local/coordinator.vineyard.properties.bak $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 sed -i "s/RESOURCE_EXECUTOR_COUNT/${worker_num}/g" $ROOT_DIR/deploy/local/coordinator.vineyard.properties
+sed -i "s/PARTITION_NUM/${worker_num}/g" $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 
 inner_config=$ROOT_DIR/deploy/local/coordinator.application.properties
 
