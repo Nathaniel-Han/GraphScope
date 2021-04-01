@@ -173,7 +173,8 @@ public class InstanceManagerController {
     public CreateInstanceEntity createLocalInstance(@RequestParam("graphName") String graphName,
                                                     @RequestParam("schemaPath") String schemaPath,
                                                     @RequestParam("vineyardIpcSocket") String vineyardIpcSocket,
-                                                    @RequestParam("workerNum") String workerNum) throws Exception{
+                                                    @RequestParam("workerNum") String workerNum,
+                                                    @RequestParam("zkPort") String zkPort) throws Exception{
         CreateInstanceEntity createInstanceEntity = new CreateInstanceEntity();
         int errorCode;
         String errorMessage;
@@ -187,6 +188,7 @@ public class InstanceManagerController {
             createCommandList.add(schemaPath);
             createCommandList.add(workerNum);
             createCommandList.add(vineyardIpcSocket);
+            createCommandList.add(zkPort);
             String command = StringUtils.join(createCommandList, " ");
             logger.info("start to create instance with command " + command);
             Process process = Runtime.getRuntime().exec(command);
