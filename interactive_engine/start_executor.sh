@@ -27,6 +27,7 @@ do
   cp $ROOT_DIR/deploy/local/executor.vineyard.properties.bak $ROOT_DIR/deploy/local/executor.vineyard.properties
   sed -i "s/VINEYARD_OBJECT_ID/$object_id/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
   sed -i "s/WORKER_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
+  sed -i "s/PARTITION_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
 
   inner_config=$ROOT_DIR/deploy/local/executor.vineyard.properties
 
