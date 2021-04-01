@@ -1,8 +1,7 @@
 #!/bin/bash
 
-set -x
+#set -x
 
-ROOT_DIR=$PWD
 #wget https://archive.apache.org/dist/zookeeper/zookeeper-3.4.10/zookeeper-3.4.10.tar.gz
 #tar xf zookeeper-3.4.14.tar.gz -C /usr/local/
 #cd /usr/local
