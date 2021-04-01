@@ -7,6 +7,8 @@ echo $1
 object_id=$1
 echo $2
 worker_num=$2
+echo $3
+zk_port=$3
 #rm -rf /home/maxgraph/logs/coordinator
 mkdir -p /home/maxgraph/logs/coordinator/coordinator_${object_id}
 #mkdir -p $ROOT_DIR/logs/
@@ -19,6 +21,7 @@ rm -rf $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 cp $ROOT_DIR/deploy/local/coordinator.vineyard.properties.bak $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 sed -i "s/RESOURCE_EXECUTOR_COUNT/${worker_num}/g" $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 sed -i "s/PARTITION_NUM/${worker_num}/g" $ROOT_DIR/deploy/local/coordinator.vineyard.properties
+sed -i "s/ZK_PORT/${zk_port}/g" $ROOT_DIR/deploy/local/coordinator.vineyard.properties
 
 inner_config=$ROOT_DIR/deploy/local/coordinator.vineyard.properties
 

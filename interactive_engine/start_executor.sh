@@ -10,6 +10,8 @@ echo $2
 worker_num=$2
 echo $3
 export VINEYARD_IPC_SOCKET=$3
+echo $4
+zk_port=$4
 
 for worker_id in $(seq 1 $worker_num);
 do
@@ -23,6 +25,7 @@ do
   sed -i "s/VINEYARD_OBJECT_ID/$object_id/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
   sed -i "s/WORKER_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
   sed -i "s/PARTITION_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
+  sed -i "s/ZK_PORT/$zk_port/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
 
   inner_config=$ROOT_DIR/deploy/local/executor.vineyard.properties
 

@@ -23,10 +23,11 @@ object_id=$1
 schema_path=$2
 worker_num=$3
 VINEYARD_IPC_SOCKET=$4
+zk_port=$5
 
-bash ./start_coordinator.sh $object_id $worker_num
+bash ./start_coordinator.sh $object_id $worker_num $zk_port
 sleep 10
-bash ./start_frontend.sh $object_id $schema_path $worker_num
+bash ./start_frontend.sh $object_id $schema_path $worker_num $zk_port
 sleep 10
-bash ./start_executor.sh $object_id $worker_num $VINEYARD_IPC_SOCKET
+bash ./start_executor.sh $object_id $worker_num $VINEYARD_IPC_SOCKET $zk_port
 
