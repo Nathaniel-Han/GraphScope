@@ -9,9 +9,9 @@ echo $2
 worker_num=$2
 echo $3
 zk_port=$3
-#rm -rf /home/maxgraph/logs/coordinator
+
+rm -rf /home/maxgraph/logs/coordinator/coordinator_${object_id}
 mkdir -p /home/maxgraph/logs/coordinator/coordinator_${object_id}
-#mkdir -p $ROOT_DIR/logs/
 
 LOG_DIR=/home/maxgraph/logs/coordinator/coordinator_${object_id}
 

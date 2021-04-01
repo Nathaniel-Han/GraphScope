@@ -16,6 +16,7 @@ zk_port=$4
 for worker_id in $(seq 1 $worker_num);
 do
   echo "Start worker $worker_id..."
+  rm -rf /home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
   mkdir -p /home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
 
   export LOG_DIRS=/home/maxgraph/logs/executor/executor_${object_id}_${worker_id}

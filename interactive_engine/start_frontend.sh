@@ -7,8 +7,8 @@ schema_path=$2
 worker_num=$3
 zk_port=$4
 
-mkdir -p mkdir /home/maxgraph/logs/frontend/frontend_${object_id}
-
+rm -rf /home/maxgraph/logs/frontend/frontend_${object_id}
+mkdir -p /home/maxgraph/logs/frontend/frontend_${object_id}
 LOG_DIR=/home/maxgraph/logs/frontend/frontend_${object_id}
 
 
