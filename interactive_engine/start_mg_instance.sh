@@ -25,7 +25,7 @@ server_id=$3
 VINEYARD_IPC_SOCKET=$4
 worker_num=$5
 
-bash ./start_coordinator.sh $object_id
+bash ./start_coordinator.sh $object_id $worker_num
 sleep 10
 bash ./start_frontend.sh $object_id $schema_path $worker_num
 sleep 10

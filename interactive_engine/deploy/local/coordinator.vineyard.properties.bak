@@ -9,7 +9,7 @@ platform.kind:YARN
 coordinator.port=8183
 resource.frontend.count=1
 resource.ingestnode.count=1
-resource.executor.count=1
+resource.executor.count=WORK_NUM
 partition.num=1
 replica.count=1
 
