@@ -7,18 +7,13 @@ ROOT_DIR=$PWD
 echo $1
 object_id=$1
 echo $2
-server_id=$2
+worker_num=$2
 echo $3
 export VINEYARD_IPC_SOCKET=$3
-echo $4
-export worker_num=$4
-
 
 for worker_id in $(seq 1 $worker_num);
 do
-
-#  server_id=$(expr $worker_id + 1)
-  echo "Start worker $server_id..."
+  echo "Start worker $worker_id..."
   mkdir -p /home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
 
   export LOG_DIRS=/home/maxgraph/logs/executor/executor_${object_id}_${worker_id}

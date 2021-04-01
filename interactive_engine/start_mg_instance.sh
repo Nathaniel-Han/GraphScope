@@ -21,13 +21,12 @@ cd ~/yuxing.hyx/tmp/GraphScope/interactive_engine
 
 object_id=$1
 schema_path=$2
-server_id=$3
+worker_num=$3
 VINEYARD_IPC_SOCKET=$4
-worker_num=$5
 
 bash ./start_coordinator.sh $object_id $worker_num
 sleep 10
 bash ./start_frontend.sh $object_id $schema_path $worker_num
 sleep 10
-bash ./start_executor.sh $object_id $server_id $VINEYARD_IPC_SOCKET $worker_num
+bash ./start_executor.sh $object_id $worker_num $VINEYARD_IPC_SOCKET
 
