@@ -203,7 +203,7 @@ public class InstanceManagerController {
                 Matcher matcher = endpointPattern.matcher(errorMessage);
                 if (matcher.find()) {
                     String frontendEndpoint = StringUtils.splitByWholeSeparator(StringUtils.removeStart(matcher.group(), "FRONTEND_PORT:"), " ")[0];
-                    InstanceEntity instanceEntity = new InstanceEntity("127.0.0.1:8182", "", "", this.instanceProperties.getCloseScript());
+                    InstanceEntity instanceEntity = new InstanceEntity(frontendEndpoint, "", "", this.instanceProperties.getCloseScript());
                     FrontendMemoryStorage.getFrontendStorage().addFrontendEndpoint(graphName, instanceEntity);
                     String[] endpointArray = StringUtils.split(frontendEndpoint, ":");
                     String ip = endpointArray[0];
