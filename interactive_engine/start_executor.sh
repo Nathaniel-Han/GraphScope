@@ -14,20 +14,21 @@ echo $4
 export worker_num=$4
 
 
-for worker_id in {1..worker_num}
+for worker_id in $(seq 1 $worker_num);
 do
-  server_id=$worker_id+1
-  echo "Start worker $server_id..."
-  mkdir -p /home/maxgraph/logs/executor/executor_${object_id}_${word_id}
 
-  export LOG_DIRS=/home/maxgraph/logs/executor/executor_${object_id}_${word_id}
+  server_id=$(expr $worker_id + 1)
+  echo "Start worker $server_id..."
+  mkdir -p /home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
+
+  export LOG_DIRS=/home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
 
   rm -rf $ROOT_DIR/deploy/local/executor.vineyard.properties
-  cp $ROOT_DIR/deploy/local/executor.vineyard.properties.bak $ROOT_DIR/deploy/local/executor.vineyard.properties_${worker_id}
-  sed -i "s/VINEYARD_OBJECT_ID/$object_id/g" $ROOT_DIR/deploy/local/executor.vineyard.properties_${worker_id}
-  sed -i "s/WORKER_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties_${worker_id}
+  cp $ROOT_DIR/deploy/local/executor.vineyard.properties.bak $ROOT_DIR/deploy/local/executor.vineyard.properties
+  sed -i "s/VINEYARD_OBJECT_ID/$object_id/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
+  sed -i "s/WORKER_NUM/$worker_num/g" $ROOT_DIR/deploy/local/executor.vineyard.properties
 
-  inner_config=$ROOT_DIR/deploy/local/executor.vineyard.properties_${worker_id}
+  inner_config=$ROOT_DIR/deploy/local/executor.vineyard.properties
 
   export flag="maxgraph"$object_id"executor"
   #export VINEYARD_IPC_SOCKET=/tmp/vineyard.sock.1617013756979
