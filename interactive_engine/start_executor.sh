@@ -17,7 +17,7 @@ export worker_num=$4
 for worker_id in $(seq 1 $worker_num);
 do
 
-  server_id=$(expr $worker_id + 1)
+#  server_id=$(expr $worker_id + 1)
   echo "Start worker $server_id..."
   mkdir -p /home/maxgraph/logs/executor/executor_${object_id}_${worker_id}
 
@@ -33,7 +33,7 @@ do
   export flag="maxgraph"$object_id"executor"
   #export VINEYARD_IPC_SOCKET=/tmp/vineyard.sock.1617013756979
 
-  RUST_BACKTRACE=full $ROOT_DIR/build/0.0.1-SNAPSHOT/bin/executor --config $inner_config $flag $server_id 1>> $LOG_DIRS/maxgraph-executor.out 2>> $LOG_DIRS/maxgraph-executor.err &
+  RUST_BACKTRACE=full $ROOT_DIR/build/0.0.1-SNAPSHOT/bin/executor --config $inner_config $flag $worker_id 1>> $LOG_DIRS/maxgraph-executor.out 2>> $LOG_DIRS/maxgraph-executor.err &
 
-  echo $! > $ROOT_DIR/executor_${object_id}_${server_id}.pid
+  echo $! > $ROOT_DIR/executor_${object_id}_${worker_id}.pid
 done
